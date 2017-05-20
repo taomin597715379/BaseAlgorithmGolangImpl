@@ -1,4 +1,3 @@
-# BaseAlgorithmGolangImpl
-The basic algorithm for golang implementation
 # 基础算法用golang实现
-基础知识练习
+## 线性排序
+1. 插入排序

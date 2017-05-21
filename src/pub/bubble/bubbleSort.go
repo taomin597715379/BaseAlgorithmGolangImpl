@@ -1,6 +1,18 @@
 package pub
 
-func bubbleSort(a []int) []int {
+type IntSlice []int
+
+func (s IntSlice) Len() int {
+	return len(s)
+}
+func (s IntSlice) Less(i, j int) bool {
+	return s[i] > s[j]
+}
+func (s IntSlice) Swap(i, j int) {
+	s[i], s[j] = s[j], s[i]
+}
+
+func bubbleSort(a IntSlice) IntSlice {
 	var i, j int
 	var n = len(a)
 	if n == 0 || n == 1 {
@@ -8,15 +20,15 @@ func bubbleSort(a []int) []int {
 	}
 	for i = 0; i < n-1; i++ {
 		for j = 0; j < n-i-1; j++ {
-			if a[j] > a[j+1] {
-				a[j], a[j+1] = a[j+1], a[j]
+			if a.Less(j, j+1) {
+				a.Swap(j, j+1)
 			}
 		}
 	}
 	return a
 }
 
-func bubbleSortImprv(a []int) []int {
+func bubbleSortImprv(a IntSlice) IntSlice {
 	var i, j int
 	var flag bool = true
 	var n = len(a)
@@ -29,8 +41,8 @@ func bubbleSortImprv(a []int) []int {
 		}
 		flag = false
 		for j = 0; j < n-i-1; j++ {
-			if a[j] > a[j+1] {
-				a[j], a[j+1] = a[j+1], a[j]
+			if a.Less(j, j+1) {
+				a.Swap(j, j+1)
 				flag = true
 			}
 		}

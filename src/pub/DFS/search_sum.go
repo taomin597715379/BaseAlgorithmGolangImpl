@@ -71,6 +71,29 @@ func CalcTwoPermutation(nums []int, target int) []int {
 	return []int{}
 }
 
+// 寻找三个数据的和等于给定值
+// 是上面的问题的变种，可以先选中一个数，求定值和该值的差值，然后从剩下的数里面选择出两个数的和等于差值
+func CalcThreePermutation(nums []int, target int) {
+	var n int = len(nums)
+	var hashmap = make(map[int]int, 0)
+	for k, v := range nums {
+		hashmap[v] = k
+	}
+	for i := 0; i < n; i++ {
+		diff := target - nums[i]
+		for k, v := range nums {
+			if k != i {
+				delete(hashmap, v)
+				if _, ok := hashmap[diff-v]; ok && hashmap[diff-v] != k {
+					fmt.Println(nums[i], v, nums[hashmap[diff-v]])
+				}
+				hashmap[v] = k
+			}
+
+		}
+	}
+}
+
 // 寻找任意一个数据的和等于给定值，列出所有组合
 // Enter a string that prints all the permutations of the characters in the string.
 // For example, enter the string abc, the output by the characters a, b, c can be arranged out of all the strings

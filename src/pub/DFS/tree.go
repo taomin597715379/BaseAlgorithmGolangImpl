@@ -13,7 +13,7 @@ type Tree struct {
 	root *TreeNode
 }
 
-func (t *Tree) Find(e interface{}) *TreeNode {
+func (t *Tree) find(e interface{}) *TreeNode {
 	if t.root == nil {
 		return nil
 	}
@@ -50,7 +50,7 @@ func (tn *TreeNode) offParent() {
 	tn.parent = nil
 }
 
-func (tn *TreeNode) SetLChild(lc *TreeNode) *TreeNode {
+func (tn *TreeNode) setLChild(lc *TreeNode) *TreeNode {
 	olc := tn.left
 	if tn.hasLChild() {
 		tn.left.offParent()
@@ -63,7 +63,7 @@ func (tn *TreeNode) SetLChild(lc *TreeNode) *TreeNode {
 	return olc
 }
 
-func (tn *TreeNode) SetRChild(lc *TreeNode) *TreeNode {
+func (tn *TreeNode) setRChild(lc *TreeNode) *TreeNode {
 	olc := tn.right
 	if tn.hasRChild() {
 		tn.right.offParent()
@@ -132,12 +132,12 @@ func NewTreeNode(e interface{}) *TreeNode {
 func createTree() *Tree {
 	tn := NewTreeNode(1)
 	r := NewTree(tn)
-	tn.SetLChild(NewTreeNode(2))
-	tn.SetRChild(NewTreeNode(3))
-	tn.getLChild().SetRChild(NewTreeNode(4))
-	tn.getLChild().getRChild().SetLChild(NewTreeNode(7))
-	tn.getRChild().SetLChild(NewTreeNode(5))
-	tn.getRChild().SetRChild(NewTreeNode(6))
+	tn.setLChild(NewTreeNode(2))
+	tn.setRChild(NewTreeNode(3))
+	tn.getLChild().setRChild(NewTreeNode(4))
+	tn.getLChild().getRChild().setLChild(NewTreeNode(7))
+	tn.getRChild().setLChild(NewTreeNode(5))
+	tn.getRChild().setRChild(NewTreeNode(6))
 	return r
 }
 

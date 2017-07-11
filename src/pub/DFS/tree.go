@@ -1,5 +1,9 @@
 package pub
 
+import (
+// "fmt"
+)
+
 // node
 type TreeNode struct {
 	Data   interface{}
@@ -135,7 +139,8 @@ func createTree() *Tree {
 	tn.setLChild(NewTreeNode(2))
 	tn.setRChild(NewTreeNode(3))
 	tn.getLChild().setRChild(NewTreeNode(4))
-	tn.getLChild().getRChild().setLChild(NewTreeNode(7))
+	tn.getLChild().setLChild(NewTreeNode(1))
+	tn.getLChild().getRChild().setLChild(NewTreeNode(2))
 	tn.getRChild().setLChild(NewTreeNode(5))
 	tn.getRChild().setRChild(NewTreeNode(6))
 	return r
@@ -153,4 +158,27 @@ func maxDepth(root *TreeNode) int {
 	} else {
 		return left + 1
 	}
+}
+
+// 在二元树中找出和为某一值的所有路径
+// 输入一个整数和一棵二元树，从树的根结点开始往下访问一直到叶结点所经过的所有结点形成一条路径，然后打印出和与输入整数相等的所有路径。
+// 例如输入整数22和如下二元树
+func allRoadTree(root *TreeNode, currentSum int, s *Stack) {
+	if root == nil {
+		return
+	}
+	currentSum -= root.Data.(int)
+	s.Push(root.Data.(int))
+	var isleaf bool = (root.left == nil) && (root.right == nil)
+	if currentSum == 0 && isleaf {
+		s.Print()
+	}
+	if root.left != nil {
+		allRoadTree(root.left, currentSum, s)
+	}
+	if root.right != nil {
+		allRoadTree(root.right, currentSum, s)
+	}
+	currentSum += root.Data.(int)
+	s.Pop()
 }

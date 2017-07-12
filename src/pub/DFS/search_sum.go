@@ -1,8 +1,11 @@
 package pub
 
 import (
+	"container/heap"
 	"container/list"
 	"fmt"
+	"math/rand"
+	"time"
 )
 
 // 通过循环双向链表构建栈结构，为后续的算法提供一个基础数据结构
@@ -15,8 +18,34 @@ func NewStack() *Stack {
 	return &Stack{list}
 }
 
+type SliceHeap []int
+
+func (s SliceHeap) Len() int {
+	return len(s)
+}
+
+func (s SliceHeap) Less(i, j int) bool {
+	return s[i] > s[j]
+}
+
+func (s SliceHeap) Swap(i, j int) {
+	s[i], s[j] = s[j], s[i]
+}
+
 func (s *Stack) Push(value interface{}) {
 	s.list.PushBack(value)
+}
+
+func (s *SliceHeap) Push(x interface{}) {
+	*s = append(*s, x.(int))
+}
+
+func (s *SliceHeap) Pop() interface{} {
+	old := *s
+	n := len(old)
+	x := old[n-1]
+	*s = old[0 : n-1]
+	return x
 }
 
 func (s *Stack) Pop() interface{} {
@@ -135,4 +164,101 @@ func CalcAllSumPermutation(a []int, sum int, s *Stack) {
 		}
 	}
 
+}
+
+// 思路三：利用快速排序里面的分治思想, 先在数组中随机选择一个数，然后以这个数为分水岭将数组一分为二，
+// 那么最小的K个数就存在三种情况：1. 这k个数都在左边的数组里面，2.这k个数都在右边数组里面，3.两个都有
+// 时间复杂度O(nlgk)
+func random(i, j int) int {
+	rand.Seed(time.Now().Unix())
+	return rand.Intn(j-i) + i
+}
+
+func QuickSelect(a []int, k, left, right int) {
+	var i, j, pivot int
+	if left <= right {
+		i, j = left, right
+		key := random(left, right)
+		pivot = a[key]
+		for {
+			for a[i] < pivot && i < j {
+				i++
+			}
+			for a[j] >= pivot && i < j {
+				j--
+			}
+			if i >= j {
+				break
+			}
+			a[i], a[j] = a[j], a[i]
+		}
+		a[i], a[key] = a[key], a[i]
+		if k <= i {
+			QuickSelect(a, k, left, i-1)
+		} else if k == i+1 {
+			return
+		} else if k > i+1 {
+			QuickSelect(a, k, i+1, right)
+		}
+	}
+}
+
+func smallestNumberofK3(a []int, k int) []int {
+	var n int = len(a)
+	if n <= k {
+		return a
+	} else {
+		QuickSelect(a, k, 0, len(a)-1)
+		return a[:k]
+	}
+}
+
+// 思路二：先构成一个K大小的堆，然后遍历n-k，同时比较x < kmax， kmax =x 更新堆，时间复杂度O(nlgk)
+func smallestNumberofK2(a []int, k int) []int {
+	var smallHeap SliceHeap
+	if len(a) < k || k <= 0 {
+		return []int{}
+	}
+	smallHeap = a[0:k]
+	heap.Init(&smallHeap)
+	for i := k; i < len(a); i++ {
+		if smallHeap[0] > a[i] {
+			heap.Pop(&smallHeap)
+			heap.Push(&smallHeap, a[i])
+		}
+	}
+	return smallHeap
+}
+
+// 思路一：通过快速排序之后，取前k个数，时间复杂度是O(nlgn)
+func partition(a []int, left int, right int) int {
+	var pre_index int = left
+	var i, j int = left, right
+	for {
+		for a[i] < a[pre_index] && i < j {
+			i++
+		}
+		for a[j] >= a[pre_index] && j > i {
+			j--
+		}
+		if i >= j {
+			break
+		}
+		a[i], a[j] = a[j], a[i]
+	}
+	a[i], a[pre_index] = a[pre_index], a[i]
+	return i
+}
+
+func quickSort(a []int, left, right int) {
+	if left < right {
+		m := partition(a, left, right)
+		quickSort(a, left, m-1)
+		quickSort(a, m+1, right)
+	}
+}
+
+func smallestNumberofK1(a []int, k int) []int {
+	quickSort(a, 0, len(a)-1)
+	return a[0:k]
 }

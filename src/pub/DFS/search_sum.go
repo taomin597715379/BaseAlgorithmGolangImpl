@@ -146,6 +146,27 @@ func CalcSumPermutation(a []int, i, sum int, s *Stack) {
 	}
 }
 
+// 一个整数数组，长度为n，将其分为m份，使各份的和相等，求m的最大值。
+// 比如{3，2，4，3，6} 可以分成
+// {3，2，4，3，6} m=1;
+// {3,6}{2,4,3} m=2
+// {3,3}{2,4}{6} m=3
+// 所以m的最大值为3。
+// 为题转换为寻找任意个数，使得和等于sum/i
+func equalizationArray(a []int, s *Stack) {
+	var sum int
+	var n int = len(a)
+	for _, v := range a {
+		sum += v
+	}
+	fmt.Println(a)
+	for i := 2; i <= n; i++ {
+		if sum%i == 0 {
+			CalcSumPermutation(a, 0, sum/i, s)
+		}
+	}
+}
+
 // 寻找任意一个数据的和等于给定值，列出所有组合,和上面的问题不同之处在于：一个数字可以无数次出现，只要相加的和等于给定的值
 // Enter a string that prints all the permutations of the characters in the string.
 // For example, enter the string abc, the output by the characters a, b, c can be arranged out of all the strings

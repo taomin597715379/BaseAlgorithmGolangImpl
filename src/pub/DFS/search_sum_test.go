@@ -26,6 +26,12 @@ func Test_CalcSumPermutation(t *testing.T) {
 	CalcSumPermutation(a, 0, 10, s)
 }
 
+func Test_equalizationArray(t *testing.T) {
+	var s *Stack = NewStack()
+	var a []int = []int{3, 2, 4, 3, 6}
+	equalizationArray(a, s)
+}
+
 func Test_CalcAllSumPermutation(t *testing.T) {
 	var s *Stack = NewStack()
 	var a []int = []int{1, 3, 2}

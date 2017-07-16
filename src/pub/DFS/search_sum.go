@@ -205,7 +205,7 @@ func minimalCombinationofArrays(a []int, i int, s *Stack) {
 	}
 }
 
-// 上面的一个变种问题：从n个元素的数组中取出m个数的所有组合
+// 上面的一个变种问题：从n个元素的数组中取出m个数的所有组合,这个问题是从n中数中选择m个数，然后对m个数进行全排列
 func CombinationMFromNArrays(a []int, i int, s *Stack) {
 
 }

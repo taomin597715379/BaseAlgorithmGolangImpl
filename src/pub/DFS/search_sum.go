@@ -4,7 +4,9 @@ import (
 	"container/heap"
 	"container/list"
 	"fmt"
+	"math"
 	"math/rand"
+	"strconv"
 	"time"
 )
 
@@ -165,6 +167,47 @@ func equalizationArray(a []int, s *Stack) {
 			CalcSumPermutation(a, 0, sum/i, s)
 		}
 	}
+}
+
+// 输入一个正整数数组，将它们连接起来排成一个数，输出能排出的所有数字中最小的一个。例如输入数组{32, 321}，则输出这两个能排成的最小数字32132。
+// 这里假设数组里面的数都是不相同的
+// 思路: 求数组的所有元素参与的排列组合，然后比较和值，留下最下的排列组合即可,思路比较简单，只要能够正确求出全排列即可
+// 这里假设数组排列组合后的最大值也不会超过int类型最大值，如果有越界的情况得将大数变成字符串比较
+func numberOfData(k int) float64 {
+	return float64(len(strconv.FormatInt(int64(k), 10)))
+}
+
+func combinationSum(a []int) float64 {
+	var sum float64
+	for _, v := range a {
+		sum = sum*math.Pow(10, numberOfData(v)) + float64(v)
+	}
+	return sum
+}
+
+func minimalCombinationofArrays(a []int, i int, s *Stack) {
+	if i == len(a) {
+		f := combinationSum(a)
+		if s.Empty() {
+			s.Push(f)
+		} else {
+			if s.Peak().(float64) > f {
+				s.Pop()
+				s.Push(f)
+			}
+		}
+	} else {
+		for j := i; j < len(a); j++ {
+			a[j], a[i] = a[i], a[j]
+			minimalCombinationofArrays(a, i+1, s)
+			a[j], a[i] = a[i], a[j]
+		}
+	}
+}
+
+// 上面的一个变种问题：从n个元素的数组中取出m个数的所有组合
+func CombinationMFromNArrays(a []int, i int, s *Stack) {
+
 }
 
 // 寻找任意一个数据的和等于给定值，列出所有组合,和上面的问题不同之处在于：一个数字可以无数次出现，只要相加的和等于给定的值

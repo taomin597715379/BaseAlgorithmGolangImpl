@@ -32,6 +32,13 @@ func Test_equalizationArray(t *testing.T) {
 	equalizationArray(a, s)
 }
 
+func Test_minimalCombinationofArrays(t *testing.T) {
+	var s *Stack = NewStack()
+	var a []int = []int{3, 32, 321}
+	minimalCombinationofArrays(a, 0, s)
+	fmt.Println(s.Peak().(float64))
+}
+
 func Test_CalcAllSumPermutation(t *testing.T) {
 	var s *Stack = NewStack()
 	var a []int = []int{1, 3, 2}

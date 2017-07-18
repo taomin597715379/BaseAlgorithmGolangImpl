@@ -32,3 +32,17 @@ func Test_lastK_3(t *testing.T) {
 	h1 := createOneLinkedList()
 	fmt.Println(lastK(10, h1))
 }
+
+func Test_mergeSortedList(t *testing.T) {
+	h1 := createOneLinkedList()
+	h2 := createOneLinkedListC()
+	h3 := mergeSortedList(h1, h2)
+	linkPrint(h3)
+}
+
+func Test_mergeSortedListR(t *testing.T) {
+	h1 := createOneLinkedList()
+	h2 := createOneLinkedListC()
+	h3 := mergeSortedListR(h1, h2)
+	linkPrint(h3)
+}

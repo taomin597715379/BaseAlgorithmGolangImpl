@@ -53,11 +53,25 @@ func createTwoLinkedList() (*LinkedNode, *LinkedNode) {
 func createOneLinkedList() *LinkedNode {
 	a1 := NewLinkedNode(1)
 	r := NewLinked(a1)
-	a1.Next = NewLinkedNode(2)
-	a1.Next.Next = NewLinkedNode(3)
-	a1.Next.Next.Next = NewLinkedNode(4)
-	a1.Next.Next.Next.Next = NewLinkedNode(5)
-	a1.Next.Next.Next.Next.Next = NewLinkedNode(6)
+	a1.Next = NewLinkedNode(3)
+	a1.Next.Next = NewLinkedNode(5)
+	a1.Next.Next.Next = NewLinkedNode(7)
+	a1.Next.Next.Next.Next = NewLinkedNode(9)
+	a1.Next.Next.Next.Next.Next = NewLinkedNode(11)
+	return r.Root
+}
+
+// need list to test above function
+func createOneLinkedListC() *LinkedNode {
+	a1 := NewLinkedNode(2)
+	r := NewLinked(a1)
+	a1.Next = NewLinkedNode(4)
+	a1.Next.Next = NewLinkedNode(6)
+	a1.Next.Next.Next = NewLinkedNode(8)
+	a1.Next.Next.Next.Next = NewLinkedNode(10)
+	a1.Next.Next.Next.Next.Next = NewLinkedNode(12)
+	a1.Next.Next.Next.Next.Next.Next = NewLinkedNode(13)
+	a1.Next.Next.Next.Next.Next.Next.Next = NewLinkedNode(14)
 	return r.Root
 }
 
@@ -135,4 +149,67 @@ func lastK(k int, head *LinkedNode) *LinkedNode {
 		j = j.Next
 	}
 	return j
+}
+
+// 合并两个有序链表 非递归
+func mergeSortedList(h1 *LinkedNode, h2 *LinkedNode) *LinkedNode {
+	var root, h3 *LinkedNode
+	if h1 == nil && h2 == nil {
+		return nil
+	}
+	if h1 == nil {
+		return h2
+	}
+	if h2 == nil {
+		return h1
+	}
+	if h1.Data.(int) < h2.Data.(int) {
+		h3 = h1
+		h1 = h1.Next
+	} else {
+		h3 = h2
+		h2 = h2.Next
+	}
+	root = h3
+	for h1 != nil && h2 != nil {
+		if h1.Data.(int) < h2.Data.(int) {
+			h3.Next = h1
+			h3 = h1
+			h1 = h1.Next
+		} else {
+			h3.Next = h2
+			h3 = h2
+			h2 = h2.Next
+		}
+	}
+	for h1 != nil {
+		h3.Next = h1
+		h3 = h1
+		h1 = h1.Next
+	}
+	for h2 != nil {
+		h3.Next = h2
+		h3 = h2
+		h2 = h2.Next
+	}
+	return root
+}
+
+// 合并两个有序链表 递归
+func mergeSortedListR(h1 *LinkedNode, h2 *LinkedNode) *LinkedNode {
+	if h1 == nil {
+		return h2
+	}
+	if h2 == nil {
+		return h1
+	}
+	var curNode *LinkedNode = nil
+	if h1.Data.(int) < h2.Data.(int) {
+		curNode = h1
+		curNode.Next = mergeSortedListR(h1.Next, h2)
+	} else {
+		curNode = h2
+		curNode.Next = mergeSortedListR(h1, h2.Next)
+	}
+	return curNode
 }

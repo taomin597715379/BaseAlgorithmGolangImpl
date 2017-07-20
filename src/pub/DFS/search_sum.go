@@ -210,6 +210,27 @@ func CombinationMFromNArrays(a []int, i int, s *Stack) {
 
 }
 
+// N个鸡蛋放到M个篮子中，篮子不能为空，要满足：对任意不大于N的数量，能用若干个篮子中鸡蛋的和表示。
+// 写出函数，对输入整数N和M，输出所有可能的鸡蛋的放法。
+// 比如对于9个鸡蛋5个篮子 解至少有三组：
+// 1 2 4 1 1
+// 1 2 2 2 2
+// 1 2 3 2 1
+// ...
+func permutationMfromN(N, n, j, m int, s *Stack) {
+	if n == N && j == m {
+		s.Print()
+	} else if j > m {
+		return
+	} else if n <= N {
+		for i := 1; i <= N; i++ {
+			s.Push(i)
+			permutationMfromN(N, n+i, j+1, m, s)
+			s.Pop()
+		}
+	}
+}
+
 // 寻找任意一个数据的和等于给定值，列出所有组合,和上面的问题不同之处在于：一个数字可以无数次出现，只要相加的和等于给定的值
 // Enter a string that prints all the permutations of the characters in the string.
 // For example, enter the string abc, the output by the characters a, b, c can be arranged out of all the strings

@@ -259,9 +259,9 @@ func random(i, j int) int {
 	return rand.Intn(j-i) + i
 }
 
-func QuickSelect(a []int, k, left, right int) {
+func QuickSelect(a []int, left, right int) int {
 	var i, j, pivot int
-	if left <= right {
+	if left < right {
 		i, j = left, right
 		key := random(left, right)
 		pivot = a[key]
@@ -278,22 +278,26 @@ func QuickSelect(a []int, k, left, right int) {
 			a[i], a[j] = a[j], a[i]
 		}
 		a[i], a[key] = a[key], a[i]
-		if k <= i {
-			QuickSelect(a, k, left, i-1)
-		} else if k == i+1 {
-			return
-		} else if k > i+1 {
-			QuickSelect(a, k, i+1, right)
-		}
 	}
+	return i
 }
 
 func smallestNumberofK3(a []int, k int) []int {
 	var n int = len(a)
+	var start int = 0
+	var end = len(a) - 1
 	if n <= k {
 		return a
 	} else {
-		QuickSelect(a, k, 0, len(a)-1)
+		var index int = QuickSelect(a, start, end)
+		for k != index {
+			if k > index {
+				start = index + 1
+			} else {
+				end = index - 1
+			}
+			index = QuickSelect(a, start, end)
+		}
 		return a[:k]
 	}
 }

@@ -1,7 +1,7 @@
 package pub
 
 import (
-// "fmt"
+	"fmt"
 )
 
 // node
@@ -146,6 +146,34 @@ func createTree() *Tree {
 	return r
 }
 
+// 前序遍历 - 递归
+func preOrderR(root *TreeNode) {
+	if root != nil {
+		fmt.Println(root.getData())
+		preOrderR(root.left)
+		preOrderR(root.right)
+	}
+}
+
+// 前序遍历 - 递归
+func midOrderR(root *TreeNode) {
+	if root != nil {
+		midOrderR(root.left)
+		fmt.Println(root.getData())
+		midOrderR(root.right)
+	}
+}
+
+// 前序遍历 - 递归
+func postOrderR(root *TreeNode) {
+	if root != nil {
+		postOrderR(root.left)
+		postOrderR(root.right)
+		fmt.Println(root.getData())
+	}
+}
+
+//树的最大深度
 func maxDepth(root *TreeNode) int {
 	var left, right int
 	if root == nil {
@@ -160,6 +188,17 @@ func maxDepth(root *TreeNode) int {
 	}
 }
 
+//树的所有节点数
+func getNodeNumber(root *TreeNode) int {
+	var left, right int
+	if root == nil {
+		return 0
+	}
+	left = getNodeNumber(root.left)
+	right = getNodeNumber(root.right)
+	return left + right + 1
+}
+
 // 在二元树中找出和为某一值的所有路径
 // 输入一个整数和一棵二元树，从树的根结点开始往下访问一直到叶结点所经过的所有结点形成一条路径，然后打印出和与输入整数相等的所有路径。
 // 例如输入整数22和如下二元树
@@ -167,18 +206,45 @@ func allRoadTree(root *TreeNode, currentSum int, s *Stack) {
 	if root == nil {
 		return
 	}
-	currentSum -= root.Data.(int)
 	s.Push(root.Data.(int))
 	var isleaf bool = (root.left == nil) && (root.right == nil)
-	if currentSum == 0 && isleaf {
-		s.Print()
+	if isleaf {
+		if currentSum == root.Data.(int) {
+			s.Print()
+		}
+	} else {
+		if root.left != nil {
+			allRoadTree(root.left, currentSum-root.Data.(int), s)
+		}
+		if root.right != nil {
+			allRoadTree(root.right, currentSum-root.Data.(int), s)
+		}
 	}
-	if root.left != nil {
-		allRoadTree(root.left, currentSum, s)
-	}
-	if root.right != nil {
-		allRoadTree(root.right, currentSum, s)
-	}
-	currentSum += root.Data.(int)
 	s.Pop()
+}
+
+// 如何将数组转化为二叉搜索树
+func convertArrayToTree(a []int, start, end int) *TreeNode {
+	if start > end {
+		return nil
+	}
+	var m int = start + (end-start)/2
+	root := NewTreeNode(a[m])
+	root.left = convertArrayToTree(a, start, m-1)
+	root.right = convertArrayToTree(a, m+1, end)
+	return root
+}
+
+// 二叉搜索树最近公共祖先LCA(Lowest Common Ancestor)
+func getBstLCA(root *TreeNode, x, y int) *TreeNode {
+	var t *TreeNode = root
+	for {
+		if t.getData().(int) < x && t.getData().(int) < y {
+			t = t.left
+		} else if t.getData().(int) > x && t.getData().(int) > y {
+			t = t.right
+		} else {
+			return t
+		}
+	}
 }

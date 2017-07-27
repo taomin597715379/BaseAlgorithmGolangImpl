@@ -61,3 +61,13 @@ func Test_insertSort_5(t *testing.T) {
 		fmt.Println(b)
 	}
 }
+
+func Test_maxProductSubArray1(t *testing.T) {
+	var a []float64 = []float64{-2.5, 4, 0, 3, 0.5, 8, -1}
+	fmt.Println(maxProductSubArray1(a))
+}
+
+func Test_maxProductSubArray2(t *testing.T) {
+	var a []float64 = []float64{-2.5, 4, 0, 3, 0.5, 8, -1}
+	fmt.Println(maxProductSubArray2(a))
+}

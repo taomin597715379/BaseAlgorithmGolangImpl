@@ -44,3 +44,7 @@
 
 1. 体会红黑树的实现过程
 
+## 设计模式(Design Patterns)
+
+1. 单例模式(Singleton)
+

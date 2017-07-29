@@ -49,4 +49,5 @@
 1. 单例模式(Singleton)
 2. 工厂模式(Factory)
 3. 原型模式(Prototype)
+4. 适配器模式(Adapter)
 

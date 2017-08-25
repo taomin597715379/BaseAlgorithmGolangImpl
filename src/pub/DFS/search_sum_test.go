@@ -57,7 +57,7 @@ func Test_smallestNumberofK2(t *testing.T) {
 
 func Test_smallestNumberofK3(t *testing.T) {
 	var a []int = []int{5, 6, 0, 2, 1, 7, 3}
-	fmt.Println(smallestNumberofK3(a, 4))
+	fmt.Println(`smallestNumberofK3`, smallestNumberofK3(a, 4))
 }
 
 func Test_permutationMfromN(t *testing.T) {

@@ -266,11 +266,11 @@ func QuickSelect(a []int, left, right int) int {
 		key := random(left, right)
 		pivot = a[key]
 		for {
-			for a[i] < pivot && i < j {
-				i++
-			}
 			for a[j] >= pivot && i < j {
 				j--
+			}
+			for a[i] < pivot && i < j {
+				i++
 			}
 			if i >= j {
 				break

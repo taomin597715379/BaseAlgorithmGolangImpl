@@ -40,9 +40,10 @@
 
 1. 从n多数组里面选择出m个最大的数
 
-## 红黑树(Red-Black-Tree)
+## 树(Tree)
 
-1. 体会红黑树的实现过程
+1. 体会红黑树(Red-Black-T)的实现过程
+2. Trie树(Trie-T)的简易实现
 
 ## 设计模式(Design Patterns)
 
